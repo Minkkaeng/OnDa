@@ -1,0 +1,136 @@
+/* Tablet (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .web-header {
+    padding: 0 20px;
+  }
+  .header-left {
+    gap: 24px;
+  }
+  .header-nav {
+    gap: 16px;
+  }
+  .content-center {
+    padding: 0 16px;
+  }
+  .cal-wrapper {
+    flex-direction: column;
+  }
+  .care-layout {
+    flex-direction: column;
+  }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Hide unnecessary elements */
+  .premium-btn,
+  .header-name,
+  .editor-btn-gray,
+  .cal-ad-zone,
+  .ad-zone-top,
+  .web-footer {
+    display: none !important;
+  }
+  
+  .mobile-nav-footer {
+    display: block !important;
+    margin-top: auto;
+    padding-top: 32px;
+    font-size: 0.8rem;
+    color: var(--muted-gray);
+    line-height: 1.6;
+  }
+
+  /* Header adjustments for Hamburger */
+  .web-header {
+    padding: 0 16px;
+  }
+  .header-left {
+    gap: 0;
+  }
+  .hamburger-btn {
+    display: block !important;
+  }
+  .header-nav {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 72px;
+    right: -300px; /* Hide off-screen to the right */
+    width: 250px;
+    height: calc(100vh - 72px);
+    background-color: var(--white);
+    border-left: 1px solid var(--steel-gray);
+    box-shadow: -4px 0 12px rgba(0,0,0,0.05);
+    padding: 24px;
+    z-index: 99;
+    transition: right 0.3s ease-in-out;
+  }
+  .header-nav.menu-open {
+    right: 0;
+  }
+  .gnb-item {
+    width: 100%;
+    text-align: left;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--ice-white);
+  }
+  
+  /* Layouts */
+  .care-layout,
+  .cal-wrapper {
+    flex-direction: column;
+  }
+
+  .cal-tabs {
+    width: 100%;
+    justify-content: center;
+  }
+  .cal-tab-btn {
+    flex: 1;
+    text-align: center;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+  
+  /* Settings */
+  .set-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .set-btn {
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  /* Panels */
+  .content-center {
+    margin: 20px auto;
+  }
+  .panel, .cal-panel, .cal-editor-panel, .care-col {
+    padding: 20px;
+  }
+  
+  .editor-top {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .cal-header-row, .cal-grid {
+    gap: 2px;
+  }
+  .cal-day {
+    padding: 8px 4px;
+    font-size: 0.9rem;
+  }
+  .editor-title {
+    font-size: 1.4rem;
+  }
+  .cal-month-title {
+    font-size: 1.5rem;
+  }
+}

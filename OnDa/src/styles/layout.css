@@ -1,0 +1,82 @@
+/* Web Layout Base */
+body {
+  background-color: var(--ice-white);
+}
+
+.web-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 1. Global Web Header */
+.web-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--white);
+  border-bottom: 1px solid var(--steel-gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  height: 72px;
+}
+
+.header-left { display: flex; align-items: center; gap: 48px; }
+
+.header-nav { list-style: none; display: flex; gap: 32px; }
+.gnb-item {
+  font-size: 1.05rem; color: #8c97a7; text-decoration: none; font-weight: 600; transition: all 0.2s;
+  cursor: pointer; white-space: nowrap; padding: 24px 0; border-bottom: 3px solid transparent;
+}
+.gnb-item:hover { color: var(--deep-navy); }
+.gnb-item.active { color: var(--deep-navy); border-bottom-color: var(--deep-navy); }
+
+.header-right { display: flex; align-items: center; gap: 20px; }
+
+.header-profile { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.header-avatar { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--mint-green); object-fit: cover; }
+.header-name { font-weight: 700; font-size: 0.95rem; }
+
+.premium-btn {
+  background-color: var(--mint-green); color: var(--white); border: none; padding: 8px 16px;
+  border-radius: 20px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+  white-space: nowrap;
+}
+
+/* 2. Center Content Area */
+.content-center {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Panel Styles */
+.panel {
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--steel-gray);
+  border-top: 6px solid var(--mint-green);
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+/* 3. Global Footer */
+.web-footer {
+  background-color: var(--white);
+  border-top: 1px solid var(--steel-gray);
+  padding: 40px 20px;
+  text-align: center;
+  margin-top: auto;
+}
+.web-footer p {
+  font-size: 12px;
+  color: var(--muted-gray);
+  line-height: 1.8;
+}
+.web-footer b { color: #64748b; }
