@@ -6,6 +6,7 @@ import './styles/pages/home.css';
 import './styles/pages/care.css';
 import './styles/pages/calendar.css';
 import './styles/pages/settings.css';
+import './styles/pages/diary.css';
 import './styles/responsive.css';
 
 // --- Import Assets ---
@@ -14,6 +15,7 @@ import { renderCare, setupCareInteraction } from './views/care';
 import { renderCalendar, setupCalendarInteraction } from './views/calendar';
 import { renderSettings, setupSettingsInteraction } from './views/settings';
 import { renderProfile, setupProfileInteraction } from './views/profile';
+import { renderDiary, setupDiaryInteraction } from './views/diary';
 
 
 // --- Layout Injection ---
@@ -39,6 +41,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <a href="#home" class="gnb-item active" id="nav-home">홈 (Home)</a>
           <a href="#care" class="gnb-item" id="nav-care">케어 (Care)</a>
           <a href="#cal" class="gnb-item" id="nav-cal">캘린더 (Cal)</a>
+          <a href="#diary" class="gnb-item" id="nav-diary">기록일기 (Diary)</a>
           <a href="#set" class="gnb-item" id="nav-set">설정 (Set)</a>
           <div class="mobile-nav-footer" style="display: none;">
             <p>
@@ -97,11 +100,6 @@ const setupCommonInteractions = () => {
     });
   }
 
-  document.querySelectorAll('.btn-submit').forEach(btn => {
-    btn.addEventListener('click', () => {
-      alert('성공적으로 저장되었습니다!');
-    });
-  });
 
   document.querySelectorAll('.set-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -117,7 +115,7 @@ const setupCommonInteractions = () => {
 
 const navigate = () => {
   let hash = window.location.hash.replace('#', '');
-  if (!['home', 'care', 'cal', 'set', 'profile'].includes(hash)) {
+  if (!['home', 'care', 'cal', 'diary', 'set', 'profile'].includes(hash)) {
     hash = 'home';
   }
 
@@ -141,6 +139,10 @@ const navigate = () => {
       routerView.innerHTML = renderCalendar();
       setupCalendarInteraction();
       break;
+    case 'diary':
+      routerView.innerHTML = renderDiary();
+      setupDiaryInteraction();
+      break;
     case 'set':
       routerView.innerHTML = renderSettings();
       setupSettingsInteraction();
@@ -150,7 +152,7 @@ const navigate = () => {
       setupProfileInteraction();
       break;
   }
-  
+
   setupCommonInteractions();
 };
 

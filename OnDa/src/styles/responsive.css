@@ -83,14 +83,12 @@
   }
 
   .cal-tabs {
-    width: 100%;
-    justify-content: center;
+    width: auto;
   }
   .cal-tab-btn {
-    flex: 1;
-    text-align: center;
-    padding: 10px 12px;
-    font-size: 0.9rem;
+    flex: none;
+    padding: 6px 16px;
+    font-size: 0.85rem;
   }
   
   /* Settings */

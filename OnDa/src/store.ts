@@ -43,6 +43,7 @@ export interface CalendarEvent {
   type: EventType;
   title: string;
   content: string;
+  imageUrl?: string;
 }
 
 export let calendarEvents: CalendarEvent[] = [
