@@ -2,6 +2,8 @@
 import './styles/base.css';
 import './styles/layout.css';
 import './styles/components.css';
+import './styles/pages/landing.css';
+import './styles/pages/onboarding.css';
 import './styles/pages/home.css';
 import './styles/pages/care.css';
 import './styles/pages/calendar.css';
@@ -10,6 +12,8 @@ import './styles/pages/diary.css';
 import './styles/responsive.css';
 
 // --- Import Assets ---
+import { renderLanding, setupLandingInteraction } from './views/landing';
+import { renderOnboarding, setupOnboardingInteraction } from './views/onboarding';
 import { renderHome, setupHomeInteraction } from './views/home';
 import { renderCare, setupCareInteraction } from './views/care';
 import { renderCalendar, setupCalendarInteraction } from './views/calendar';
@@ -20,13 +24,29 @@ import { renderDiary, setupDiaryInteraction } from './views/diary';
 
 // --- Layout Injection ---
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+  <!-- 0. Intro Splash Screen -->
+  <div id="intro-splash" class="intro-splash">
+    <div class="splash-content">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 130" style="height: 80px; margin-bottom: 24px;">
+        <circle cx="60" cy="55" r="30" fill="none" stroke="#14C3A3" stroke-width="16"/>
+        <path d="M 115 85 V 45" fill="none" stroke="#14C3A3" stroke-width="16" stroke-linecap="round"/>
+        <path d="M 115 55 C 115 35, 155 35, 155 55 V 85" fill="none" stroke="#14C3A3" stroke-width="16" stroke-linecap="round"/>
+        <path d="M 185 25 V 85" fill="none" stroke="#14C3A3" stroke-width="16" stroke-linecap="round"/>
+        <path d="M 185 25 C 235 25, 235 85, 185 85" fill="none" stroke="#14C3A3" stroke-width="16" stroke-linecap="round"/>
+        <path d="M 255 85 L 275 25 L 295 85" fill="none" stroke="#121B2A" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 275 68 C 275 68, 263 56, 263 48 A 8 8 0 0 1 275 44 A 8 8 0 0 1 287 48 C 287 56, 275 68, 275 68 Z" fill="#14C3A3"/>
+      </svg>
+      <h2 style="color: var(--deep-navy); margin: 0; font-size: 1.5rem;">OnDa Pet Care</h2>
+    </div>
+  </div>
+
   <div class="web-layout">
     
     <!-- 1. Global Web Header -->
     <header class="web-header">
       <div class="header-left">
         <!-- SVG Logo matching attached image -->
-        <a href="#home" class="brand-logo-link" style="text-decoration: none; display: flex; align-items: center;">
+        <a href="#main" class="brand-logo-link" style="text-decoration: none; display: flex; align-items: center;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 130" style="height: 52px; margin-right: 12px;">
             <circle cx="60" cy="55" r="30" fill="none" stroke="#14C3A3" stroke-width="16"/>
             <path d="M 115 85 V 45" fill="none" stroke="#14C3A3" stroke-width="16" stroke-linecap="round"/>
@@ -38,7 +58,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           </svg>
         </a>
         <nav class="header-nav">
-          <a href="#home" class="gnb-item active" id="nav-home">홈 (Home)</a>
+          <a href="#main" class="gnb-item active" id="nav-main">메인 (Main)</a>
+          <a href="#dashboard" class="gnb-item" id="nav-dashboard">대시보드 (Dashboard)</a>
           <a href="#care" class="gnb-item" id="nav-care">케어 (Care)</a>
           <a href="#cal" class="gnb-item" id="nav-cal">캘린더 (Cal)</a>
           <a href="#diary" class="gnb-item" id="nav-diary">기록일기 (Diary)</a>
@@ -115,8 +136,8 @@ const setupCommonInteractions = () => {
 
 const navigate = () => {
   let hash = window.location.hash.replace('#', '');
-  if (!['home', 'care', 'cal', 'diary', 'set', 'profile'].includes(hash)) {
-    hash = 'home';
+  if (!['main', 'dashboard', 'care', 'cal', 'diary', 'set', 'profile', 'onboarding'].includes(hash)) {
+    hash = 'main';
   }
 
   updateNavUI(hash);
@@ -126,8 +147,26 @@ const navigate = () => {
     headerNav.classList.remove('menu-open');
   }
 
+  const header = document.querySelector('.web-header') as HTMLElement;
+  const footer = document.querySelector('.web-footer') as HTMLElement;
+  if (hash === 'onboarding') {
+    if (header) header.style.display = 'none';
+    if (footer) footer.style.display = 'none';
+  } else {
+    if (header) header.style.display = 'flex';
+    if (footer) footer.style.display = 'block';
+  }
+
   switch (hash) {
-    case 'home':
+    case 'onboarding':
+      routerView.innerHTML = renderOnboarding();
+      setupOnboardingInteraction();
+      break;
+    case 'main':
+      routerView.innerHTML = renderLanding();
+      setupLandingInteraction();
+      break;
+    case 'dashboard':
       routerView.innerHTML = renderHome();
       setupHomeInteraction();
       break;
@@ -157,8 +196,32 @@ const navigate = () => {
 };
 
 window.addEventListener('hashchange', navigate);
-// Initial load
-navigate();
+
+// Initial load and Intro Logic
+const checkFirstRunAndNavigate = () => {
+  const isFirstRun = localStorage.getItem('isFirstRun');
+  const splash = document.getElementById('intro-splash');
+  
+  if (!isFirstRun) {
+    // First time running the app, keep it false until they finish onboarding
+    window.location.hash = 'onboarding';
+  } else {
+    // Not the first run, proceed with normal navigation
+    navigate();
+  }
+
+  // Handle splash screen fade out
+  if (splash) {
+    setTimeout(() => {
+      splash.style.opacity = '0';
+      setTimeout(() => {
+        splash.style.display = 'none';
+      }, 500); // wait for CSS transition
+    }, 2000); // Show splash for 2 seconds
+  }
+};
+
+checkFirstRunAndNavigate();
 
 // Premium Button Interaction (Outside router as it's in header)
 const premiumBtn = document.querySelector('.premium-btn');

@@ -34,6 +34,13 @@ export const getActivePet = (): Pet => {
   return pets.find(p => p.id === activePetId) || pets[0];
 };
 
+export const registerNewPet = (pet: Omit<Pet, 'id'>) => {
+  const newPet = { ...pet, id: 'pet-' + Date.now() };
+  pets = [newPet]; // 덮어쓰기 (초기 등록용)
+  activePetId = newPet.id;
+  return newPet;
+};
+
 export type EventType = 'diary' | 'hospital' | 'schedule';
 
 export interface CalendarEvent {
